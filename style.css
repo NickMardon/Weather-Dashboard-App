@@ -3,7 +3,7 @@
 }
 
 #appHeader {
-    background-color: #565656;
+    background-color: #474747;
     text-align: center;
     font-size: 40px;
     padding: 20px;
@@ -18,16 +18,44 @@
 }
 
 .searchDisplay {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
 }
 
-.todaysWeather {
-    background-color: salmon;
+#searchBtn {
+    background-color: dodgerblue;
+}
 
+.todaysWeather {
+    background-color: lightgray;
+    border: 2px solid lightgrey;
     padding: 20px;
 }
 
 .fiveDayForcast {
-    background-color: blueviolet;
+    background-color: lightgray;
+    margin-top: 14px;
+}
+
+.day {
+    background-color: dodgerblue;
+    margin: 10px auto;
+}
+
+.footerContainer {
+    display: flex;
+    background-color:#474747;
+    padding: 6px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+#footerText {
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    color: whitesmoke;
 }
