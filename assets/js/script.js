@@ -21,12 +21,6 @@ searchBtn.on("click", function(){
     getWeather(searchInput.val());
 })
 
-
-//When city button is clicked getWeather function is called
-
-
-
-
 //getWeather function generates current days weather stats
 function getWeather(cityName){
     $("#currentIcon").empty();
@@ -35,7 +29,6 @@ function getWeather(cityName){
        url: queryUrl,
        method: "GET"
    }).then(function(response){
-        console.log(response);
         //city name and date
         $("#cityHeader").text(cityName + " " + (new Date().toLocaleDateString()));
         //current day weather icon
@@ -51,10 +44,8 @@ function getWeather(cityName){
         var lon = response.coord.lon;
         getUVIndex(lat,lon);
         fiveDay(cityName);
-
    }
    )}
-
 
 //calls five day API endpoint and populates page with data
 function fiveDay(cityName){
@@ -68,12 +59,9 @@ function fiveDay(cityName){
         url: queryUrl,
         method: "GET"
     }).then(function(response){
-        console.log(response)
-        // debugger;
         var dayCounter = 1;
         //for loop grabs the data of each day at noon
         for(let i = 3;i<response.list.length;i+=8){
-            // debugger;
             //Date populated on card
             var formatedDate = new Date(response.list[i].dt_txt).toLocaleDateString();
             var cardDate = $("<h4>");
@@ -93,22 +81,20 @@ function fiveDay(cityName){
         }
     })
 }
-
+// Generate Weather Icons
 function iconGenerator(icon){
     var iconImg = $("<img>");
     var iconUrl = "http://openweathermap.org/img/wn/";   
     iconImg.attr("src", iconUrl + icon + "@2x.png");
     return iconImg;
 } 
-
+//Get UV index
 function getUVIndex(lat, lon){
     var queryUrl = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + apiKey;
-    console.log(queryUrl);
     $.ajax({
         url: queryUrl,
         method: "GET"
     }).then(function(response){
-        console.log(response.value);
         $("#todayUVIndex").text(response.value);
     })
 }
