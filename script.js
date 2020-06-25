@@ -1,3 +1,4 @@
+//global variables
 var searchBtn = $("#searchBtn");
 var searchDisplay = $(".searchDisplay");
 var searchInput = $("#searchInput");
@@ -9,6 +10,13 @@ searchBtn.on("click", function(){
     event.preventDefault();
     var cityBtn = $("<button>");
     cityBtn.text(searchInput.val());
+    cityBtn.attr("class","cityBtn");
+    //Click listener for city buttons to toggle between searched cities
+    cityBtn.on("click",function(){
+        event.preventDefault();
+        console.log($(this).text());
+        getWeather($(this).text());
+    })
     searchDisplay.prepend(cityBtn);
     getWeather(searchInput.val());
 })
@@ -17,26 +25,30 @@ searchBtn.on("click", function(){
 //When city button is clicked getWeather function is called
 
 
+
+
 //getWeather function generates current days weather stats
 function getWeather(cityName){
+    $("#currentIcon").empty();
    var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + units + apiKey;
    $.ajax({
        url: queryUrl,
        method: "GET"
    }).then(function(response){
         console.log(response);
+        //city name and date
         $("#cityHeader").text(cityName + " " + (new Date().toLocaleDateString()));
+        //current day weather icon
+        var currentIcon = iconGenerator(response.weather[0].icon);
+        $("#currentIcon").append(currentIcon);
         $("#todayTemp").text((response.main.temp) + "℉");
         //update humidity 
         $("#todayHumidity").text((response.main.humidity) + "%");
         //update windspeed
         $("#todayWindSpeed").text((response.wind.speed) + "MPH")
-        //add weather icon to header
-
+        //define lat and lon to pass into uv index
         var lat = response.coord.lat;
         var lon = response.coord.lon;
-        // console.log(lat);
-        // console.log(lon);
         getUVIndex(lat,lon);
         fiveDay(cityName);
 
@@ -46,6 +58,11 @@ function getWeather(cityName){
 
 //calls five day API endpoint and populates page with data
 function fiveDay(cityName){
+    $("#day1").empty();
+    $("#day2").empty();
+    $("#day3").empty();
+    $("#day4").empty();
+    $("#day5").empty();
     var queryUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + units + apiKey;
     $.ajax({
         url: queryUrl,
@@ -57,7 +74,6 @@ function fiveDay(cityName){
         //for loop grabs the data of each day at noon
         for(let i = 3;i<response.list.length;i+=8){
             // debugger;
-            // console.log(response.list[i].dt_txt);
             //Date populated on card
             var formatedDate = new Date(response.list[i].dt_txt).toLocaleDateString();
             var cardDate = $("<h4>");
