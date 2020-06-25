@@ -13,14 +13,13 @@
 }
 
 .searchDashboard {
-    background-color: yellowgreen;
-
+    background-color: lightgray;
     padding: 20px;
 }
 
 .searchDisplay {
-    background-color: red;
-    height: 40px;
+    display: flex;
+    flex-direction: column;
 }
 
 .todaysWeather {
@@ -31,5 +30,4 @@
 
 .fiveDayForcast {
     background-color: blueviolet;
-    height: 100px;
 }
